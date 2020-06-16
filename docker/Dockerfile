@@ -25,6 +25,5 @@ RUN \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-
 WORKDIR /autophrase
 ENV COMPILE 0
