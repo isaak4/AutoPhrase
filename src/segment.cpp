@@ -48,7 +48,8 @@ void process(const vector<TOTAL_TOKENS_TYPE>& tokens, const vector<POS_ID_TYPE>&
                         patterns[trie[u].id].size() == 1 && patterns[trie[u].id].quality >= SEGMENT_SINGLE_WORD_QUALITY_THRESHOLD
                    );
         if (quality) {
-            ret.push_back("</phrase>");
+            ret.push_back("</mark>");
+            // ret.push_back("</phrase>");
             ++ highlights;
         }
         for (int k = i - 1; k >= j; -- k) {
@@ -57,7 +58,19 @@ void process(const vector<TOTAL_TOKENS_TYPE>& tokens, const vector<POS_ID_TYPE>&
             ret.push_back(sout.str());
         }
         if (quality) {
-            ret.push_back("<phrase>");
+            // ret.push_back("<mark style=\"background-color:rgba(0, 255, 0, " + std::to_string(patterns[trie[u].id].quality) + ")\">");
+            // ret.push_back(")\">");
+            // ret.push_back(std::to_string(patterns[trie[u].id].quality));
+            // std::string str = std::to_string((patterns[trie[u].id].quality - SEGMENT_MULTI_WORD_QUALITY_THRESHOLD) / (1.0 - SEGMENT_MULTI_WORD_QUALITY_THRESHOLD));
+            // std::string str = std::to_string(patterns[trie[u].id].quality);
+            std::string str;
+            if (patterns[trie[u].id].quality <= SEGMENT_SINGLE_WORD_QUALITY_THRESHOLD){
+                str = std::to_string(patterns[trie[u].id].quality);
+            } else {
+                str = std::to_string((patterns[trie[u].id].quality - SEGMENT_SINGLE_WORD_QUALITY_THRESHOLD) / (1.0 - SEGMENT_SINGLE_WORD_QUALITY_THRESHOLD));
+            }
+            ret.push_back("<markstyle=\"background-color:rgba(0,255,0," + str + ")\">");
+            // ret.push_back("<phrase>");
         }
 
         i = j;

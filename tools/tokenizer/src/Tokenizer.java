@@ -608,13 +608,15 @@ public class Tokenizer {
             boolean isPhrase = false;
             while (segmentedReader.ready()) {
                 String line = segmentedReader.readLine();
+                String mark = "";
                 String[] parts = line.split(" ");
                 for (int i = 0; i < parts.length; ++ i) {
-                    if (parts[i].equals("<phrase>")) {
+                    if (parts[i].startsWith("<mark")) {
                         isPhrase = true;
-                    } else if (parts[i].equals("</phrase>")) {
+                        mark = parts[i].substring(0, 5) + " " + parts[i].substring(5, parts[i].length());
+                    } else if (parts[i].equals("</mark>")) {
                         if (!isPhrase) {
-                    	   writer.write("</phrase>");
+                    	   writer.write("</mark>");
                         } else {
                             isPhrase = false;
                         }
@@ -673,7 +675,7 @@ public class Tokenizer {
                                 found = true;
                                 if (isPhrase) {
                                     isPhrase = false;
-                                    writer.write("<phrase>");
+                                    writer.write(mark);
                                 }
                             }
                                 
